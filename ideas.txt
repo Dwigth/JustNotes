@@ -1,0 +1,15 @@
+1.- Aplicación para guardar notas, listas.
+2.- Portable (HTML5)
+3.- NoSQL
+
+Notas
+id_nota:int
+Titulo (O no):string
+Contenido:string
+lista:boolean
+
+Etiquetas
+id_etiqueta:int
+nombre:string
+color:string
+
