@@ -1,5 +1,5 @@
 (() => {
     var IC = new InputController();
     var VC = new VistaController(IC.notas);
-    console.log('init app');
+    console.log('app is running!');
 })();

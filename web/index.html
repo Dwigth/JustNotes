@@ -7,25 +7,74 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Simple note!</title>
     <link rel="stylesheet" href="assets/app.css">
+    <link rel="stylesheet" href="assets/normalize.css">
+    <link rel="stylesheet" href="assets/skeleton.css">
+    <link rel="stylesheet" href="assets/material-icons.css">
 </head>
 
 <body>
-
-    <div>
-        <div>
-            <input id="ITitulo" type="text">
-        </div>
-        <div>
-            <input id="IContenido" type="text">
-        </div>
-        <div>
-            <input type="button" id="IConfirmacion" value="Cerrar">
+    <div class="header">
+        <div class="row">
+            <div class="two columns">
+                <h5>SIMPLE-NOTE</h5>
+            </div>
+            <div class="six columns">
+                <form>
+                    <div class="row">
+                        <input type="text" class="u-full-width" placeholder="Buscar" name="" id="">
+                    </div>
+                </form>
+            </div>
+            <div class="one columns">
+                <i class="material-icons cursor">
+                    refresh
+                </i>
+            </div>
+            <div class="one columns cursor">
+                <i class="material-icons">
+                    view_stream
+                </i>
+            </div>
+            <div class="one columns cursor">
+                <i class="material-icons">
+                    settings
+                </i>
+            </div>
+            <div class="one columns cursor">
+                <i class="material-icons">
+                    account_box
+                </i>
+            </div>
         </div>
     </div>
+    <div class="container">
 
-    <div id="IContenedor">
+        <div class="u-full-width">
+            <div class="card">
+                <form>
+                    <div>
+                        <input class="u-full-width" id="ITitulo" placeholder="Título" type="text">
+                    </div>
+                    <div>
+                        <input class="u-full-width" id="IContenido" placeholder="¡Vamos a tomar nota!" type="text">
+                    </div>
+                    <div>
+                        <label for="ILista">Lista</label>
+                        <input type="checkbox" name="ILista" id="ILista">
+                    </div>
+                    <div>
+                        <input type="button" class="button-primary" id="IConfirmacion" value="Cerrar">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="IContenedor" class="row">
+
+        </div>
 
     </div>
+
     <script src="js/actions/vista.controller.js"></script>
     <script src="js/actions/input.controller.js"></script>
     <script src="js/app.js"></script>

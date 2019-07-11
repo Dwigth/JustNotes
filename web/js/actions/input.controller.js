@@ -33,8 +33,8 @@ class InputController {
         this.IContenedor.innerHTML = "";
         this.notas.forEach(nota => {
             var elemNota = document.createElement('div');
-            elemNota.classList.add('nota');
-            elemNota.textContent = 'titulo:' + nota.titulo + ' contenido: ' + nota.contenido;
+            elemNota.classList.add('three', 'columns');
+            elemNota.textContent = nota.titulo + ' contenido: ' + nota.contenido;
             this.IContenedor.appendChild(elemNota);
         });
     }

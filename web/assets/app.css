@@ -1,7 +1,24 @@
+*{
+    font-family: sans-serif;
+}
 .nota {
     width: 100%;
     height: 30px;
-    background-color: white;
+    background: #EEE;
     color: gray;
-    border: 1px solid black;
+    border-radius: 4px;
+    letter-spacing: .1rem;
+}
+.header{
+    margin: 10px;
+    border-bottom: .1px solid lightgray;
+}
+.cursor{
+    cursor: pointer;
+}
+.card {
+    width: auto;
+    height: auto;
+    background: rgb(255, 255, 255);
+    border-radius: 4px;
 }
