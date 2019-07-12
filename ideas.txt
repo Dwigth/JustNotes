@@ -1,6 +1,6 @@
 1.- Aplicación para guardar notas, listas.
 2.- Portable (HTML5)
-3.- NoSQL
+3.- NoSQL o SQL
 
 Notas
 id_nota:int
@@ -13,3 +13,4 @@ id_etiqueta:int
 nombre:string
 color:string
 
+browserify dev/web/js/app.js -o web/js/app.bundle.js

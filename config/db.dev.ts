@@ -5,9 +5,9 @@ const momentTz = moment.tz.setDefault(timezone);
 
 export const _CONFIG: ISequelizeConfig = {
     database: 'simplenote',
-    username: 'posgres',
+    username: 'postgres',
     password: '123456789',
-    host: '10.14.120.62',
+    host: 'localhost',
     port: 5432,
     dialect: 'postgres',
     timezone: timezone,
