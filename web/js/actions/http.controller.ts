@@ -3,14 +3,14 @@ import { RespuestaPeticion } from "../helpers/respuesta";
 
 export class HTTPController {
     constructor() { }
-    public static POST(data: any, uri: string): any {
-        fetch(URL + uri, {
+    public static async POST(data: any, uri: string): Promise<RespuestaPeticion> {
+        return await fetch(URL + uri, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: header
         }).then(res => res.json())
             .catch(error => error)
-            .then(response => response);
+            .then((response: RespuestaPeticion) => response);
     }
     public static async GET(uri: string): Promise<RespuestaPeticion> {
         return await fetch(URL + uri, {

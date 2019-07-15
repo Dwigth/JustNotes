@@ -45,7 +45,6 @@ const server = http.createServer(app);
 
 export const io = sokectIO(server);
 
-
 server.listen(config.PORT);
 console.log("Puerto ", config.PORT);
-console.log("Modo: ", (process.env.NODE_ENV != undefined) ? 'Producción' : 'Desarrollo')
+console.log("Modo: ", (process.env.NODE_ENV != undefined) ? 'Producción' : 'Desarrollo');
