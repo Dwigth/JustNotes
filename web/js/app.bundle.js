@@ -82,7 +82,6 @@ class InputController {
         this.IContenido.addEventListener('click', () => {
             this.afterClickIContenido('initial');
         });
-        this.ITitulo.focus();
         this.afterClickIContenido('none');
         this.displayNotas();
         InputController.IRefresh.addEventListener('click', () => { this.refresh(); });
@@ -120,7 +119,8 @@ class InputController {
             contenido: this.getIContenido(),
             id_usuario: 1,
             lista: false,
-            fecha_creacion: moment().format('YYYY-MM-DD HH:m:ss')
+            fecha_creacion: moment().format('YYYY-MM-DD HH:m:ss'),
+            fecha_modificacion: moment().format('YYYY-MM-DD HH:m:ss')
         };
         if (nota.contenido !== '') {
             notas_service_1.NotasService.agregarNota(nota);

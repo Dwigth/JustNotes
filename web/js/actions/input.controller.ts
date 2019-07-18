@@ -58,7 +58,8 @@ export class InputController {
             contenido: this.getIContenido(),
             id_usuario: 1,
             lista: false,
-            fecha_creacion: moment().format('YYYY-MM-DD HH:m:ss')
+            fecha_creacion: moment().format('YYYY-MM-DD HH:m:ss'),
+            fecha_modificacion: moment().format('YYYY-MM-DD HH:m:ss')
         };
         if (nota.contenido !== '') {
             NotasService.agregarNota(nota);

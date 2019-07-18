@@ -10,7 +10,7 @@ export class NotaController {
         let respuesta: RespuestaPeticion;
         let error = false;
         let extra: any;
-        let notas = await M_NOTA.findAll()
+        let notas = await M_NOTA.findAll({ order: [['fecha_modificacion', 'DESC']] })
             .then((notas: Array<NOTA>) => {
                 return subdividirArreglo(notas, 4);
                 // return notas;
