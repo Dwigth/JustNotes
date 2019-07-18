@@ -124,7 +124,6 @@ class InputController {
         };
         if (nota.contenido !== '') {
             notas_service_1.NotasService.agregarNota(nota);
-            this.notas[this.notas.length - 1].push(nota);
             let vc = new vista_controller_1.VistaController(this.notas).renderNotas(this.IContenedor);
             this.clean();
             this.displayNotas();

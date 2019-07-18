@@ -63,7 +63,6 @@ export class InputController {
         };
         if (nota.contenido !== '') {
             NotasService.agregarNota(nota);
-            this.notas[this.notas.length - 1].push(nota);
             let vc = new VistaController(this.notas).renderNotas(this.IContenedor);
             this.clean();
             this.displayNotas();
