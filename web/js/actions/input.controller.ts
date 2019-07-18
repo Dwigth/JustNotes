@@ -2,6 +2,7 @@ import { VistaController } from "./vista.controller";
 import { HTTPController } from "./http.controller";
 import { Nota } from "../helpers/nota";
 import { NotasService } from "../services/notas.service";
+import { AlertController } from "./alert.controllert";
 
 export class InputController {
     ITitulo: HTMLInputElement;
@@ -23,13 +24,19 @@ export class InputController {
             this.afterClickIContenido('initial');
         });
         this.afterClickIContenido('none');
-        this.getNotas();
+        this.displayNotas();
         this.IRefresh.addEventListener('click', () => { this.refresh() })
     }
-    async getNotas() {
+    async displayNotas() {
         let data = await NotasService.obtenerNotas();
         console.log(data);
 
+        let alert = new AlertController();
+        if (data.data == undefined) {
+            alert.showAlert('Ha habido un error');
+        } else {
+            alert.showAlert(<string>data.msg);
+        }
         let notas: Array<Array<Nota>> = (data.data != undefined) ? Array.from(data.data) : [];
         this.notas = notas;
         let vc = new VistaController(this.notas).renderNotas(this.IContenedor);
@@ -52,7 +59,7 @@ export class InputController {
             this.notas[this.notas.length - 1].push(nota);
             let vc = new VistaController(this.notas).renderNotas(this.IContenedor);
             this.clean();
-            this.getNotas();
+            this.displayNotas();
         }
     }
     clean() {
@@ -62,7 +69,7 @@ export class InputController {
     refresh() {
         this.IRefresh.classList.add('refresh');
         setTimeout(() => {
-            this.getNotas();
+            this.displayNotas();
             this.IRefresh.classList.remove('refresh');
         }, 1000);
     }

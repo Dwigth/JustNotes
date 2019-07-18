@@ -17,7 +17,7 @@ export class HTTPController {
             method: 'GET',
             headers: header
         }).then(res => res.json())
-            .catch(error => error)
+            .catch((error: RespuestaPeticion) => error)
             .then((response: RespuestaPeticion) => response);
     }
 }

@@ -17,7 +17,8 @@ export class NotaController {
         return respuesta = {
             data: notas,
             error: error,
-            extra: { extra }
+            extra: { extra },
+            msg: 'Todo bien'
         }
     }
     public static async AgregarNota(Nota: NOTA): Promise<RespuestaPeticion> {

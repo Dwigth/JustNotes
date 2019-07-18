@@ -7,7 +7,7 @@
  */
 export interface RespuestaPeticion {
     error?: boolean;
-    typeError?: number;
+    typeError?: number | string;
     msg?: string;
     data?: {} | any;
     extra?: {};
