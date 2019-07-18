@@ -1,7 +1,10 @@
 export interface Nota {
-    contenido: string;
     id_nota?: number;
-    id_usuario: number;
-    lista: boolean;
     titulo: string;
+    contenido: string;
+    lista: boolean;
+    color?: string;
+    id_usuario: number;
+    fecha_creacion: string;
+    fecha_modificacion?: string;
 }

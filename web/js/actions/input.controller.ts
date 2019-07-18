@@ -1,8 +1,8 @@
 import { VistaController } from "./vista.controller";
-import { HTTPController } from "./http.controller";
 import { Nota } from "../helpers/nota";
 import { NotasService } from "../services/notas.service";
 import { AlertController } from "./alert.controllert";
+import moment = require("moment");
 
 export class InputController {
     ITitulo: HTMLInputElement;
@@ -11,21 +11,21 @@ export class InputController {
     IConfirmacion: HTMLInputElement;
     notas: Array<Array<Nota>> = [];
     ILista: HTMLElement;
-    IRefresh: HTMLElement;
+    static IRefresh: HTMLElement;
     constructor() {
         this.ITitulo = <HTMLInputElement>document.getElementById('ITitulo');
         this.IContenido = <HTMLInputElement>document.getElementById('IContenido');
         this.IContenedor = <HTMLInputElement>document.getElementById('IContenedor');
         this.IConfirmacion = <HTMLInputElement>document.getElementById('IConfirmacion');
         this.ILista = <HTMLElement>document.getElementById('ILista');
-        this.IRefresh = <HTMLElement>document.getElementById('IRefresh');
+        InputController.IRefresh = <HTMLElement>document.getElementById('IRefresh');
         this.IConfirmacion.addEventListener('click', () => { this.save(); this.afterClickIContenido('none'); });
         this.IContenido.addEventListener('click', () => {
             this.afterClickIContenido('initial');
         });
         this.afterClickIContenido('none');
         this.displayNotas();
-        this.IRefresh.addEventListener('click', () => { this.refresh() })
+        InputController.IRefresh.addEventListener('click', () => { this.refresh() })
     }
     async displayNotas() {
         let data = await NotasService.obtenerNotas();
@@ -53,7 +53,13 @@ export class InputController {
         this.ILista.style.display = status;
     }
     save() {
-        var nota: Nota = { titulo: this.getITitulo(), contenido: this.getIContenido(), id_usuario: 1, lista: false };
+        var nota: Nota = {
+            titulo: this.getITitulo(),
+            contenido: this.getIContenido(),
+            id_usuario: 1,
+            lista: false,
+            fecha_creacion: moment().format('YYYY-MM-DD HH:m:ss')
+        };
         if (nota.contenido !== '') {
             NotasService.agregarNota(nota);
             this.notas[this.notas.length - 1].push(nota);
@@ -67,10 +73,13 @@ export class InputController {
         this.IContenido.value = "";
     }
     refresh() {
-        this.IRefresh.classList.add('refresh');
+        InputController.IRefresh.classList.add('refresh');
         setTimeout(() => {
             this.displayNotas();
-            this.IRefresh.classList.remove('refresh');
+            InputController.IRefresh.classList.remove('refresh');
         }, 1000);
+    }
+    public static spin(spin: boolean) {
+        (spin) ? this.IRefresh.classList.add('refresh') : InputController.IRefresh.classList.remove('refresh');
     }
 }

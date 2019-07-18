@@ -19,4 +19,10 @@ export class M_NOTA extends Model<M_NOTA> implements NOTA {
     lista: boolean;
     @Column
     id_usuario: number;
+    @Column
+    color?: string;
+    @Column
+    fecha_creacion: string;
+    @Column
+    fecha_modificacion: string;
 }

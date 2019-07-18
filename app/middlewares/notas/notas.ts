@@ -12,3 +12,8 @@ export async function AgregarNota(req: Request, res: Response) {
     let response = await NotaController.AgregarNota(nota).catch(e => e);
     res.json(response);
 }
+export async function EditarNota(req: Request, res: Response) {
+    let nota: NOTA = req.body;
+    let response = await NotaController.EditarNota(nota).catch(e => e);
+    res.json(response);
+}

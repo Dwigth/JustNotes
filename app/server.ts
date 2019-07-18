@@ -19,6 +19,9 @@ import sokectIO from 'socket.io';
 import http from 'http';
 import https from 'https';
 import fs from 'fs';
+import { NotaController } from './actions/notas/nota.controller';
+import { NOTA } from './helpers/notas/nota';
+
 
 
 //declaración de la aplicación
