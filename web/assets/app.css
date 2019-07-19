@@ -66,6 +66,17 @@
     height: auto;
     background: rgb(255, 255, 255);
     border-radius: 4px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.2); 
+    margin-bottom: 20px;
+}
+.card form {
+    margin-bottom: 0px !important;
+}
+.card input, .EInputHeader,  .EInputContent {
+    border: none !important;
+    margin-bottom: 0px !important;
 }
 .nota-card {
     width: 240px;
@@ -75,8 +86,9 @@
     border:1px solid lightgrey;
     padding: 10px;
     margin-bottom: 10px;
+    transition-duration: 0.5s;
 }
-.nota-card-header {
+.nota-card-header, .EInputHeader {
     font-weight: bold;
     font-size: medium;
 }
@@ -93,6 +105,19 @@
 .nota-card:hover .nota-card-footer{
     visibility: visible;
 }
+.nota-click{
+    position: absolute !important;
+    transform: scale(2) translate(-50px, 0px);
+    z-index: 2;
+}
+.backdrop{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 1;
+    background-color: rgba(255, 255, 255,0.9);
+    visibility: hidden;
+}
 .refresh {
     animation: rotation 1.5s infinite linear;
 }
@@ -101,7 +126,7 @@
     height: 5vh;
     background-color: #33C3F0;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     padding: 0;
     bottom: 0;
     right: 0;
@@ -127,7 +152,7 @@
     }
 }
 
-@keyframes popUpRightToLeft {
+@keyframes moveToCenter {
     from {
         transform: translate(100px);
     }

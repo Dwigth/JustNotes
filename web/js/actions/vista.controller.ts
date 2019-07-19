@@ -2,12 +2,15 @@ import { Nota } from "../helpers/nota";
 import { InputController } from "./input.controller";
 import { NotasService } from "../services/notas.service";
 import { AlertController } from "./alert.controllert";
-import Masonry from 'masonry-layout';
+// import Masonry from 'masonry-layout';
 
 export class VistaController {
     router: any;
     notas: Array<Nota>;
+    //Haciendo referencia a Masonry que está en otro archivo.
     Masonry: any;
+    backdrop: HTMLElement;
+
     private colors: Array<string> = [
         'FF637D',
         'F4F1BB',
@@ -30,6 +33,7 @@ export class VistaController {
      * @param IContenedor Contenedor en el cual se construirán las tarjetas
      */
     renderNotas(IContenedor: HTMLInputElement | HTMLElement): void {
+        this.backdrop = <HTMLElement>document.getElementById('backdrop');
         IContenedor.innerHTML = "";
         IContenedor.classList.add('grid');
 
@@ -41,7 +45,7 @@ export class VistaController {
         this.Masonry = new Masonry('.grid', {
             // options
             itemSelector: '.nota-card',
-            columnWidth: 100
+            columnWidth: 20
         });
     }
 
@@ -50,11 +54,11 @@ export class VistaController {
      * @param data Datos de la nota
      */
     cardBuilder(data: Nota) {
+        let timer: any = null;
         const alert = new AlertController();
         const contenedorCard: HTMLElement = document.createElement('div');
         contenedorCard.classList.add('nota-card', 'cursor');
         contenedorCard.id = `card_${data.id_nota}`;
-
         if (data.color) {
             contenedorCard.style.backgroundColor = '#' + data.color;
         }
@@ -152,9 +156,32 @@ export class VistaController {
 
         headerCard.addEventListener('click', () => {
             console.log('Carta ', data.id_nota);
+            contenedorCard.classList.add('nota-click');
+            headerCard.contentEditable = "true";
+            this.backdrop.style.visibility = 'visible';
         });
         contentCard.addEventListener('click', () => {
-            console.log('Carta ', data.id_nota);
+            contenedorCard.classList.add('nota-click');
+            contentCard.contentEditable = "true";
+            this.backdrop.style.visibility = 'visible';
+        });
+        headerCard.addEventListener('keydown', (ev) => {
+            data.titulo = <string>headerCard.textContent;
+            console.log(headerCard.textContent);
+            clearTimeout(timer);
+            timer = setTimeout(() => { NotasService.editarNota(data) }, 1000);
+        });
+        contentCard.addEventListener('keyup', (ev) => {
+            data.contenido = <string>contentCard.textContent;
+            clearTimeout(timer);
+            timer = setTimeout(() => { NotasService.editarNota(data) }, 1000);
+        });
+
+
+        this.backdrop.addEventListener('click', () => {
+            contenedorCard.classList.remove('nota-click');
+            this.backdrop.style.visibility = 'hidden';
+            this.Masonry.reloadItems();
         });
 
 
