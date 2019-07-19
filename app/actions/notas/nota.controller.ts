@@ -12,8 +12,8 @@ export class NotaController {
         let extra: any;
         let notas = await M_NOTA.findAll({ order: [['fecha_modificacion', 'DESC']] })
             .then((notas: Array<NOTA>) => {
-                return subdividirArreglo(notas, 4);
-                // return notas;
+                // return subdividirArreglo(notas, 4);
+                return notas;
             }).catch((e: any) => { extra = e; error = true; return e; });
         return respuesta = {
             data: notas,

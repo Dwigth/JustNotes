@@ -3,6 +3,8 @@
 }
 .container {
     flex-direction: row;
+    width: 95% !important;
+    max-width: unset !important;
 }
 .columns{
     position: relative;
@@ -66,7 +68,7 @@
     border-radius: 4px;
 }
 .nota-card {
-    width: auto;
+    width: 240px;
     height: auto;
     background: rgb(255, 255, 255);
     border-radius: 4px;

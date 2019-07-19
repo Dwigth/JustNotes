@@ -2,10 +2,12 @@ import { Nota } from "../helpers/nota";
 import { InputController } from "./input.controller";
 import { NotasService } from "../services/notas.service";
 import { AlertController } from "./alert.controllert";
+import Masonry from 'masonry-layout';
 
 export class VistaController {
     router: any;
-    notas: Array<Array<Nota>>;
+    notas: Array<Nota>;
+    Masonry: any;
     private colors: Array<string> = [
         'FF637D',
         'F4F1BB',
@@ -19,8 +21,9 @@ export class VistaController {
         'Eliminar'
     ];
 
-    constructor(notas: Array<Array<Nota>>) {
+    constructor(notas: Array<Nota>) {
         this.notas = notas;
+
     }
 
     /**
@@ -28,14 +31,17 @@ export class VistaController {
      */
     renderNotas(IContenedor: HTMLInputElement | HTMLElement): void {
         IContenedor.innerHTML = "";
-        this.notas.forEach((notas: Array<Nota>, index: number) => {
-            let row: HTMLElement = document.createElement('div');
-            row.classList.add('row');
-            notas.forEach((nota: Nota) => {
-                const elemNota = this.cardBuilder(nota);
-                row.appendChild(elemNota);
-            });
-            IContenedor.append(row);
+        IContenedor.classList.add('grid');
+
+        this.notas.forEach((nota: Nota) => {
+            const elemNota = this.cardBuilder(nota);
+            IContenedor.append(elemNota);
+        });
+
+        this.Masonry = new Masonry('.grid', {
+            // options
+            itemSelector: '.nota-card',
+            columnWidth: 100
         });
     }
 
@@ -46,7 +52,7 @@ export class VistaController {
     cardBuilder(data: Nota) {
         const alert = new AlertController();
         const contenedorCard: HTMLElement = document.createElement('div');
-        contenedorCard.classList.add('three', 'columns', 'nota-card', 'cursor');
+        contenedorCard.classList.add('nota-card', 'cursor');
         contenedorCard.id = `card_${data.id_nota}`;
 
         if (data.color) {

@@ -2,14 +2,13 @@ import { VistaController } from "./vista.controller";
 import { Nota } from "../helpers/nota";
 import { NotasService } from "../services/notas.service";
 import { AlertController } from "./alert.controllert";
-import moment = require("moment");
 
 export class InputController {
     ITitulo: HTMLInputElement;
     IContenido: HTMLInputElement;
     IContenedor: HTMLInputElement;
     IConfirmacion: HTMLInputElement;
-    notas: Array<Array<Nota>> = [];
+    notas: Array<Nota> = [];
     ILista: HTMLElement;
     static IRefresh: HTMLElement;
     constructor() {
@@ -37,7 +36,7 @@ export class InputController {
         } else {
             alert.showAlert(<string>data.msg);
         }
-        let notas: Array<Array<Nota>> = (data.data != undefined) ? Array.from(data.data) : [];
+        let notas: Array<Nota> = (data.data != undefined) ? Array.from(data.data) : [];
         this.notas = notas;
         let vc = new VistaController(this.notas).renderNotas(this.IContenedor);
     }
@@ -53,13 +52,16 @@ export class InputController {
         this.ILista.style.display = status;
     }
     save() {
+        let current_datetime = new Date()
+        let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds()
+        console.log(formatted_date)
         var nota: Nota = {
             titulo: this.getITitulo(),
             contenido: this.getIContenido(),
             id_usuario: 1,
             lista: false,
-            fecha_creacion: moment().format('YYYY-MM-DD HH:m:ss'),
-            fecha_modificacion: moment().format('YYYY-MM-DD HH:m:ss')
+            fecha_creacion: formatted_date,
+            fecha_modificacion: formatted_date
         };
         if (nota.contenido !== '') {
             NotasService.agregarNota(nota);
@@ -74,10 +76,7 @@ export class InputController {
     }
     refresh() {
         InputController.IRefresh.classList.add('refresh');
-        setTimeout(() => {
-            this.displayNotas();
-            InputController.IRefresh.classList.remove('refresh');
-        }, 1000);
+        this.displayNotas().finally(() => InputController.IRefresh.classList.remove('refresh'));
     }
     public static spin(spin: boolean) {
         (spin) ? this.IRefresh.classList.add('refresh') : InputController.IRefresh.classList.remove('refresh');
