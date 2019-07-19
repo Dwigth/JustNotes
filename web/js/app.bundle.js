@@ -161,6 +161,11 @@ class VistaController {
             'EAF2E3',
             'FFF87F'
         ];
+        this.opts = [
+            'Agregar etiqueta',
+            'Mostrar lista',
+            'Eliminar'
+        ];
         this.notas = notas;
     }
     /**
@@ -172,7 +177,7 @@ class VistaController {
             let row = document.createElement('div');
             row.classList.add('row');
             notas.forEach((nota) => {
-                var elemNota = this.cardBuilder(nota);
+                const elemNota = this.cardBuilder(nota);
                 row.appendChild(elemNota);
             });
             IContenedor.append(row);
@@ -190,32 +195,36 @@ class VistaController {
         if (data.color) {
             contenedorCard.style.backgroundColor = '#' + data.color;
         }
+        //creacion de elementos html y adición de clases css
         const headerCard = document.createElement('div');
-        headerCard.textContent = data.titulo;
-        headerCard.classList.add('nota-card-header');
         const contentCard = document.createElement('div');
-        contentCard.textContent = data.contenido;
-        contentCard.classList.add('nota-card-content');
         const footerCard = document.createElement('div');
-        footerCard.classList.add('nota-card-footer', 'row');
         const opt = document.createElement('div');
-        opt.classList.add('u-full-width');
         const colors = document.createElement('div');
         const colors_drop = document.createElement('div');
+        const more_drop = document.createElement('div');
         const more = document.createElement('div');
         const colorsBtn = document.createElement('i');
         const moreBtn = document.createElement('i');
-        colors_drop.classList.add('colors_dropdown');
-        colors.classList.add('six', 'columns');
+        headerCard.textContent = data.titulo;
+        contentCard.textContent = data.contenido;
         colorsBtn.textContent = 'color_lens';
-        colorsBtn.classList.add('material-icons', 'cursor');
         moreBtn.textContent = 'more_vert';
+        headerCard.classList.add('nota-card-header');
+        contentCard.classList.add('nota-card-content');
+        footerCard.classList.add('nota-card-footer', 'row');
+        opt.classList.add('u-full-width');
+        colors_drop.classList.add('colors_dropdown');
+        more_drop.classList.add('more_dropdown', 'more_list');
+        colors.classList.add('six', 'columns');
+        colorsBtn.classList.add('material-icons', 'cursor');
         moreBtn.classList.add('material-icons', 'cursor');
         more.classList.add('six', 'columns');
         colors.append(colors_drop, colorsBtn);
-        more.appendChild(moreBtn);
+        more.append(more_drop, moreBtn);
         opt.append(colors, more);
         footerCard.appendChild(opt);
+        //Eventos
         this.colors.forEach(color => {
             const colorCircle = document.createElement('div');
             colorCircle.classList.add('circle');
@@ -237,21 +246,33 @@ class VistaController {
                     }
                     input_controller_1.InputController.spin(false);
                 });
-                // setTimeout(() => {
-                //     InputController.spin(false);
-                // }, 1000);
             });
             colors_drop.appendChild(colorCircle);
         });
         colorsBtn.addEventListener('mouseover', (ev) => {
-            console.log('Colores de ', data.id_nota);
             colors_drop.style.visibility = 'visible';
         });
         colors_drop.addEventListener('mouseleave', (ev) => {
             colors_drop.style.visibility = 'hidden';
         });
+        this.opts.forEach(option => {
+            const optionElem = document.createElement('div');
+            optionElem.classList.add('more_list-item');
+            optionElem.textContent = option;
+            optionElem.addEventListener('click', () => {
+                more_drop.style.visibility = 'hidden';
+            });
+            optionElem.addEventListener('mouseover', (ev) => {
+                optionElem.style.backgroundColor = 'rgba(0,0,0,0.05)';
+            });
+            optionElem.addEventListener('mouseleave', (ev) => {
+                optionElem.style.backgroundColor = 'rgba(0,0,0,0)';
+            });
+            more_drop.appendChild(optionElem);
+        });
         moreBtn.addEventListener('click', () => {
-            console.log('Mas de  ', data.id_nota);
+            console.log('more');
+            more_drop.style.visibility = 'visible';
         });
         headerCard.addEventListener('click', () => {
             console.log('Carta ', data.id_nota);

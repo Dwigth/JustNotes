@@ -6,13 +6,19 @@ import { AlertController } from "./alert.controllert";
 export class VistaController {
     router: any;
     notas: Array<Array<Nota>>;
-    private colors: Array<any> = [
+    private colors: Array<string> = [
         'FF637D',
         'F4F1BB',
         '66D7D1',
         'EAF2E3',
         'FFF87F'
     ];
+    private opts: Array<string> = [
+        'Agregar etiqueta',
+        'Mostrar lista',
+        'Eliminar'
+    ];
+
     constructor(notas: Array<Array<Nota>>) {
         this.notas = notas;
     }
@@ -26,7 +32,7 @@ export class VistaController {
             let row: HTMLElement = document.createElement('div');
             row.classList.add('row');
             notas.forEach((nota: Nota) => {
-                var elemNota = this.cardBuilder(nota);
+                const elemNota = this.cardBuilder(nota);
                 row.appendChild(elemNota);
             });
             IContenedor.append(row);
@@ -47,33 +53,41 @@ export class VistaController {
             contenedorCard.style.backgroundColor = '#' + data.color;
         }
 
+        //creacion de elementos html y adición de clases css
         const headerCard: HTMLElement = document.createElement('div');
-        headerCard.textContent = data.titulo;
-        headerCard.classList.add('nota-card-header');
         const contentCard: HTMLElement = document.createElement('div');
-        contentCard.textContent = data.contenido;
-        contentCard.classList.add('nota-card-content');
         const footerCard: HTMLElement = document.createElement('div');
-        footerCard.classList.add('nota-card-footer', 'row');
         const opt: HTMLElement = document.createElement('div');
-        opt.classList.add('u-full-width');
         const colors: HTMLElement = document.createElement('div');
         const colors_drop: HTMLElement = document.createElement('div');
+        const more_drop: HTMLElement = document.createElement('div');
         const more: HTMLElement = document.createElement('div');
         const colorsBtn: HTMLElement = document.createElement('i');
         const moreBtn: HTMLElement = document.createElement('i');
-        colors_drop.classList.add('colors_dropdown');
-        colors.classList.add('six', 'columns');
+
+        headerCard.textContent = data.titulo;
+        contentCard.textContent = data.contenido;
         colorsBtn.textContent = 'color_lens';
-        colorsBtn.classList.add('material-icons', 'cursor');
         moreBtn.textContent = 'more_vert';
+
+
+        headerCard.classList.add('nota-card-header');
+        contentCard.classList.add('nota-card-content');
+        footerCard.classList.add('nota-card-footer', 'row');
+        opt.classList.add('u-full-width');
+        colors_drop.classList.add('colors_dropdown');
+        more_drop.classList.add('more_dropdown', 'more_list');
+        colors.classList.add('six', 'columns');
+        colorsBtn.classList.add('material-icons', 'cursor');
         moreBtn.classList.add('material-icons', 'cursor');
         more.classList.add('six', 'columns');
+
         colors.append(colors_drop, colorsBtn);
-        more.appendChild(moreBtn);
+        more.append(more_drop, moreBtn);
         opt.append(colors, more);
         footerCard.appendChild(opt);
 
+        //Eventos
         this.colors.forEach(color => {
             const colorCircle = document.createElement('div');
             colorCircle.classList.add('circle');
@@ -95,23 +109,39 @@ export class VistaController {
                     }
                     InputController.spin(false)
                 });
-                // setTimeout(() => {
-                //     InputController.spin(false);
-                // }, 1000);
             });
             colors_drop.appendChild(colorCircle)
         });
 
         colorsBtn.addEventListener('mouseover', (ev: Event) => {
-            console.log('Colores de ', data.id_nota);
             colors_drop.style.visibility = 'visible';
         });
         colors_drop.addEventListener('mouseleave', (ev: Event) => {
             colors_drop.style.visibility = 'hidden';
         });
 
+        this.opts.forEach(option => {
+            const optionElem = document.createElement('div');
+            optionElem.classList.add('more_list-item');
+            optionElem.textContent = option;
+
+            optionElem.addEventListener('click', () => {
+                more_drop.style.visibility = 'hidden';
+            });
+            optionElem.addEventListener('mouseover', (ev: Event) => {
+                optionElem.style.backgroundColor = 'rgba(0,0,0,0.05)';
+            });
+            optionElem.addEventListener('mouseleave', (ev: Event) => {
+                optionElem.style.backgroundColor = 'rgba(0,0,0,0)';
+            });
+
+            more_drop.appendChild(optionElem);
+        });
+
         moreBtn.addEventListener('click', () => {
-            console.log('Mas de  ', data.id_nota);
+            console.log('more');
+
+            more_drop.style.visibility = 'visible';
         });
 
         headerCard.addEventListener('click', () => {
