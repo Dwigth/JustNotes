@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="assets/app.css">
     <link rel="stylesheet" href="assets/normalize.css">
     <link rel="stylesheet" href="assets/skeleton.css">
-    <link rel="stylesheet" href="assets/material-icons.css">
+    <!-- <link rel="stylesheet" href="assets/material-icons.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -27,27 +31,27 @@
             <div class="six columns">
                 <form>
                     <div class="row">
-                        <input type="text" class="u-full-width" placeholder="Buscar" name="" id="">
+                        <input type="text" class="u-full-width" placeholder="Buscar" name="" id="busqueda">
                     </div>
                 </form>
             </div>
             <div class="one columns">
-                <i id="IRefresh" class="material-icons cursor">
+                <i id="IRefresh" class="material-icons-outlined cursor">
                     refresh
                 </i>
             </div>
             <div class="one columns cursor">
-                <i class="material-icons">
+                <i class="material-icons-outlined">
                     view_stream
                 </i>
             </div>
             <div class="one columns cursor">
-                <i class="material-icons">
+                <i class="material-icons-outlined">
                     settings
                 </i>
             </div>
             <div class="one columns cursor">
-                <i class="material-icons">
+                <i class="material-icons-outlined">
                     account_box
                 </i>
             </div>
@@ -58,7 +62,9 @@
         <div class="row">
             <div class="two columns">
                 <div class="u-full-width">
-                    side
+                    <div class="tags-list" id="tags-list">
+
+                    </div>
                 </div>
             </div>
             <div class="ten columns">
@@ -73,7 +79,7 @@
                                     type="text">
                             </div>
                             <div>
-                                <!-- <label for="ILista">Lista</label> -->
+                                <label for="ILista">Lista</label>
                                 <input type="checkbox" name="ILista" id="ILista">
                             </div>
                             <div>

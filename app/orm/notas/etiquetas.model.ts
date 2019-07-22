@@ -10,9 +10,9 @@ import { ETIQUETAS } from '../../helpers/notas/etiquetas';
 })
 export class M_ETIQUETAS extends Model<M_ETIQUETAS> implements ETIQUETAS {
     @Column({ primaryKey: true, autoIncrement: true })
-    id_etiquetas: number;
+    id_etiqueta: number;
     @Column
     nombre: string;
     @Column
-    color: string;
+    id_usuario: number;
 }

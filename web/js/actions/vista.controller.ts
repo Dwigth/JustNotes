@@ -2,21 +2,25 @@ import { Nota } from "../helpers/nota";
 import { InputController } from "./input.controller";
 import { NotasService } from "../services/notas.service";
 import { AlertController } from "./alert.controllert";
-// import Masonry from 'masonry-layout';
+//Comentar para compilar en producción
+import Masonry from 'masonry-layout';
+import { Etiquetas } from "../helpers/etiquetas";
 
 export class VistaController {
     router: any;
     notas: Array<Nota>;
+    etiquetas: Array<Etiquetas>;
     //Haciendo referencia a Masonry que está en otro archivo.
     Masonry: any;
     backdrop: HTMLElement;
-
+    cardContainer: HTMLElement;
     private colors: Array<string> = [
         'FF637D',
         'F4F1BB',
         '66D7D1',
         'EAF2E3',
-        'FFF87F'
+        'FFF87F',
+        'FFFFFF'
     ];
     private opts: Array<string> = [
         'Agregar etiqueta',
@@ -32,9 +36,12 @@ export class VistaController {
     /**
      * @param IContenedor Contenedor en el cual se construirán las tarjetas
      */
-    renderNotas(IContenedor: HTMLInputElement | HTMLElement): void {
+    render(IContenedor: HTMLInputElement | HTMLElement): void {
+        this.cardContainer = IContenedor;
         this.backdrop = <HTMLElement>document.getElementById('backdrop');
+        const IEtiquetaContenedor = <HTMLElement>document.getElementById('tags-list');
         IContenedor.innerHTML = "";
+        IEtiquetaContenedor.innerHTML = "";
         IContenedor.classList.add('grid');
 
         this.notas.forEach((nota: Nota) => {
@@ -47,6 +54,29 @@ export class VistaController {
             itemSelector: '.nota-card',
             columnWidth: 20
         });
+
+        //render etiquetas
+        let loadEtiquetas = async () => {
+            const label = document.createElement('div');
+            label.classList.add('tag-element');
+            label.textContent = 'Etiquetas';
+            const editLabel = document.createElement('div');
+            editLabel.classList.add('tag-element');
+            const iconEdit = document.createElement('i');
+            iconEdit.classList.add('material-icons-outlined');
+            iconEdit.textContent = 'edit';
+            editLabel.appendChild(iconEdit);
+            editLabel.setAttribute('data-value', 'Editar etiqueta');
+
+            IEtiquetaContenedor.appendChild(label);
+            this.etiquetas = await NotasService.etiquetasUsuario(1).then((r: any) => r.data.etiquetas).catch(e => e);
+            this.etiquetas.forEach(etiqueta => {
+                const label = this.labelsBuilder(etiqueta);
+                IEtiquetaContenedor.appendChild(label);
+            });
+            IEtiquetaContenedor.appendChild(editLabel);
+        }
+        loadEtiquetas();
     }
 
     /**
@@ -59,7 +89,8 @@ export class VistaController {
         const contenedorCard: HTMLElement = document.createElement('div');
         contenedorCard.classList.add('nota-card', 'cursor');
         contenedorCard.id = `card_${data.id_nota}`;
-        if (data.color) {
+
+        if (data.color != null) {
             contenedorCard.style.backgroundColor = '#' + data.color;
         }
 
@@ -76,7 +107,17 @@ export class VistaController {
         const moreBtn: HTMLElement = document.createElement('i');
 
         headerCard.textContent = data.titulo;
-        contentCard.textContent = data.contenido;
+        //si no tiene contenido la nota podrá editarla
+        if (data.titulo == '') {
+            headerCard.innerHTML = '<br>';
+        } else {
+            headerCard.textContent = data.titulo;
+        }
+        if (data.contenido == '') {
+            contentCard.innerHTML = '<br>';
+        } else {
+            contentCard.textContent = data.contenido;
+        }
         colorsBtn.textContent = 'color_lens';
         moreBtn.textContent = 'more_vert';
 
@@ -130,7 +171,7 @@ export class VistaController {
             colors_drop.style.visibility = 'hidden';
         });
 
-        this.opts.forEach(option => {
+        this.opts.forEach((option: any, index: number) => {
             const optionElem = document.createElement('div');
             optionElem.classList.add('more_list-item');
             optionElem.textContent = option;
@@ -144,6 +185,20 @@ export class VistaController {
             optionElem.addEventListener('mouseleave', (ev: Event) => {
                 optionElem.style.backgroundColor = 'rgba(0,0,0,0)';
             });
+
+            if (index == 2) {
+                optionElem.addEventListener('click', async () => {
+                    let r = await NotasService.eliminarNota(<number>data.id_nota).then(async r => {
+                        contenedorCard.style.display = 'none';
+                        this.notas = [];
+                        this.notas = await NotasService.obtenerNotas().then((r: any) => r.data).catch(e => e);
+                        console.log(this.notas);
+                    }).catch(e => e)
+                        .finally(() => {
+                            this.render(this.cardContainer);
+                        });
+                });
+            }
 
             more_drop.appendChild(optionElem);
         });
@@ -189,5 +244,16 @@ export class VistaController {
 
         contenedorCard.append(headerCard, contentCard, footerCard);
         return contenedorCard;
+    }
+
+    labelsBuilder(etiqueta: Etiquetas) {
+        const base = document.createElement('div');
+        base.classList.add('tag-element');
+        const icon = document.createElement('i');
+        icon.classList.add('material-icons-outlined');
+        icon.textContent = 'label';
+        base.append(icon);
+        base.setAttribute('data-value', etiqueta.nombre);
+        return base;
     }
 }

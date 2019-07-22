@@ -21,4 +21,24 @@ export class NotasService {
                 return resultado;
             }).catch(e => console.error(e));
     }
+    public static async buscarNota(busqueda: string) {
+        return await HTTPController.POST({ busqueda: busqueda }, '/notas/buscar')
+            .then(resultado => {
+                return resultado;
+            }).catch(e => console.error(e));
+    }
+
+    public static async etiquetasUsuario(id: number) {
+        return await HTTPController.POST({ id: id }, '/usuario/etiquetas')
+            .then(resultado => {
+                return resultado;
+            }).catch(e => console.error(e));
+    }
+    public static async eliminarNota(id: number) {
+        return await HTTPController.POST({ id_nota: id }, '/notas/eliminar')
+            .then(resultado => {
+                return resultado;
+            }).catch(e => console.error(e));
+    }
+
 }

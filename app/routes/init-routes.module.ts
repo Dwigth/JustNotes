@@ -4,8 +4,10 @@ import bodyParser from "body-parser";
 import { notas_router } from "./notas/notas.routes";
 //interfaces
 import { Application, Request, Response } from 'express';
+import { etiquetas_router } from "./notas/etiquetas.routes";
 const routes = [
-    notas_router
+    notas_router,
+    etiquetas_router
 ];
 export function bootstrapRoutes(app: Application) {
     app.use(bodyParser.json()); // para application/json
