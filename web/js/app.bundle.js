@@ -76,10 +76,14 @@ class InputController {
         this.IContenedor = document.getElementById('IContenedor');
         this.IConfirmacion = document.getElementById('IConfirmacion');
         this.ILista = document.getElementById('ILista');
+        this.IBusqueda = document.getElementById('busqueda');
         InputController.IRefresh = document.getElementById('IRefresh');
         this.IConfirmacion.addEventListener('click', () => { this.save(); this.afterClickIContenido('none'); });
         this.IContenido.addEventListener('click', () => {
             this.afterClickIContenido('initial');
+        });
+        this.IBusqueda.addEventListener('keyup', () => {
+            this.search(this.IBusqueda.value);
         });
         this.afterClickIContenido('none');
         this.displayNotas();
@@ -98,7 +102,7 @@ class InputController {
             }
             let notas = (data.data != undefined) ? Array.from(data.data) : [];
             this.notas = notas;
-            let vc = new vista_controller_1.VistaController(this.notas).renderNotas(this.IContenedor);
+            let vc = new vista_controller_1.VistaController(this.notas).render(this.IContenedor);
         });
     }
     getITitulo() {
@@ -125,10 +129,11 @@ class InputController {
             fecha_modificacion: formatted_date
         };
         if (nota.contenido !== '') {
-            notas_service_1.NotasService.agregarNota(nota);
-            let vc = new vista_controller_1.VistaController(this.notas).renderNotas(this.IContenedor);
-            this.clean();
-            this.displayNotas();
+            notas_service_1.NotasService.agregarNota(nota).finally(() => {
+                let vc = new vista_controller_1.VistaController(this.notas).render(this.IContenedor);
+                this.clean();
+                this.displayNotas();
+            });
         }
     }
     clean() {
@@ -142,16 +147,33 @@ class InputController {
     static spin(spin) {
         (spin) ? this.IRefresh.classList.add('refresh') : InputController.IRefresh.classList.remove('refresh');
     }
+    search(val) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (val != '') {
+                let data = yield notas_service_1.NotasService.buscarNota(val).catch(e => e);
+                let vc = new vista_controller_1.VistaController(data.data).render(this.IContenedor);
+            }
+            else
+                this.displayNotas();
+        });
+    }
 }
 exports.InputController = InputController;
 
 },{"../services/notas.service":7,"./alert.controllert":1,"./vista.controller":4}],4:[function(require,module,exports){
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const input_controller_1 = require("./input.controller");
 const notas_service_1 = require("../services/notas.service");
 const alert_controllert_1 = require("./alert.controllert");
-// import Masonry from 'masonry-layout';
 class VistaController {
     constructor(notas) {
         this.colors = [
@@ -159,7 +181,8 @@ class VistaController {
             'F4F1BB',
             '66D7D1',
             'EAF2E3',
-            'FFF87F'
+            'FFF87F',
+            'FFFFFF'
         ];
         this.opts = [
             'Agregar etiqueta',
@@ -171,9 +194,12 @@ class VistaController {
     /**
      * @param IContenedor Contenedor en el cual se construirán las tarjetas
      */
-    renderNotas(IContenedor) {
+    render(IContenedor) {
+        this.cardContainer = IContenedor;
         this.backdrop = document.getElementById('backdrop');
+        const IEtiquetaContenedor = document.getElementById('tags-list');
         IContenedor.innerHTML = "";
+        IEtiquetaContenedor.innerHTML = "";
         IContenedor.classList.add('grid');
         this.notas.forEach((nota) => {
             const elemNota = this.cardBuilder(nota);
@@ -184,6 +210,27 @@ class VistaController {
             itemSelector: '.nota-card',
             columnWidth: 20
         });
+        //render etiquetas
+        let loadEtiquetas = () => __awaiter(this, void 0, void 0, function* () {
+            const label = document.createElement('div');
+            label.classList.add('tag-element');
+            label.textContent = 'Etiquetas';
+            const editLabel = document.createElement('div');
+            editLabel.classList.add('tag-element');
+            const iconEdit = document.createElement('i');
+            iconEdit.classList.add('material-icons-outlined');
+            iconEdit.textContent = 'edit';
+            editLabel.appendChild(iconEdit);
+            editLabel.setAttribute('data-value', 'Editar etiqueta');
+            IEtiquetaContenedor.appendChild(label);
+            this.etiquetas = yield notas_service_1.NotasService.etiquetasUsuario(1).then((r) => r.data.etiquetas).catch(e => e);
+            this.etiquetas.forEach(etiqueta => {
+                const label = this.labelsBuilder(etiqueta);
+                IEtiquetaContenedor.appendChild(label);
+            });
+            IEtiquetaContenedor.appendChild(editLabel);
+        });
+        loadEtiquetas();
     }
     /**
      * Función que crea el HTML de cada nota.
@@ -195,7 +242,7 @@ class VistaController {
         const contenedorCard = document.createElement('div');
         contenedorCard.classList.add('nota-card', 'cursor');
         contenedorCard.id = `card_${data.id_nota}`;
-        if (data.color) {
+        if (data.color != null) {
             contenedorCard.style.backgroundColor = '#' + data.color;
         }
         //creacion de elementos html y adición de clases css
@@ -210,7 +257,19 @@ class VistaController {
         const colorsBtn = document.createElement('i');
         const moreBtn = document.createElement('i');
         headerCard.textContent = data.titulo;
-        contentCard.textContent = data.contenido;
+        //si no tiene contenido la nota podrá editarla
+        if (data.titulo == '') {
+            headerCard.innerHTML = '<br>';
+        }
+        else {
+            headerCard.textContent = data.titulo;
+        }
+        if (data.contenido == '') {
+            contentCard.innerHTML = '<br>';
+        }
+        else {
+            contentCard.textContent = data.contenido;
+        }
         colorsBtn.textContent = 'color_lens';
         moreBtn.textContent = 'more_vert';
         headerCard.classList.add('nota-card-header');
@@ -258,7 +317,7 @@ class VistaController {
         colors_drop.addEventListener('mouseleave', (ev) => {
             colors_drop.style.visibility = 'hidden';
         });
-        this.opts.forEach(option => {
+        this.opts.forEach((option, index) => {
             const optionElem = document.createElement('div');
             optionElem.classList.add('more_list-item');
             optionElem.textContent = option;
@@ -271,6 +330,19 @@ class VistaController {
             optionElem.addEventListener('mouseleave', (ev) => {
                 optionElem.style.backgroundColor = 'rgba(0,0,0,0)';
             });
+            if (index == 2) {
+                optionElem.addEventListener('click', () => __awaiter(this, void 0, void 0, function* () {
+                    let r = yield notas_service_1.NotasService.eliminarNota(data.id_nota).then((r) => __awaiter(this, void 0, void 0, function* () {
+                        contenedorCard.style.display = 'none';
+                        this.notas = [];
+                        this.notas = yield notas_service_1.NotasService.obtenerNotas().then((r) => r.data).catch(e => e);
+                        console.log(this.notas);
+                    })).catch(e => e)
+                        .finally(() => {
+                        this.render(this.cardContainer);
+                    });
+                }));
+            }
             more_drop.appendChild(optionElem);
         });
         moreBtn.addEventListener('click', () => {
@@ -293,13 +365,11 @@ class VistaController {
             console.log(headerCard.textContent);
             clearTimeout(timer);
             timer = setTimeout(() => { notas_service_1.NotasService.editarNota(data); }, 1000);
-            // NotasService.editarNota(data);
         });
         contentCard.addEventListener('keyup', (ev) => {
             data.contenido = contentCard.textContent;
             clearTimeout(timer);
             timer = setTimeout(() => { notas_service_1.NotasService.editarNota(data); }, 1000);
-            // NotasService.editarNota(data);
         });
         this.backdrop.addEventListener('click', () => {
             contenedorCard.classList.remove('nota-click');
@@ -308,6 +378,16 @@ class VistaController {
         });
         contenedorCard.append(headerCard, contentCard, footerCard);
         return contenedorCard;
+    }
+    labelsBuilder(etiqueta) {
+        const base = document.createElement('div');
+        base.classList.add('tag-element');
+        const icon = document.createElement('i');
+        icon.classList.add('material-icons-outlined');
+        icon.textContent = 'label';
+        base.append(icon);
+        base.setAttribute('data-value', etiqueta.nombre);
+        return base;
     }
 }
 exports.VistaController = VistaController;
@@ -359,6 +439,30 @@ class NotasService {
     static editarNota(nota) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield http_controller_1.HTTPController.POST(nota, '/notas/editar')
+                .then(resultado => {
+                return resultado;
+            }).catch(e => console.error(e));
+        });
+    }
+    static buscarNota(busqueda) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield http_controller_1.HTTPController.POST({ busqueda: busqueda }, '/notas/buscar')
+                .then(resultado => {
+                return resultado;
+            }).catch(e => console.error(e));
+        });
+    }
+    static etiquetasUsuario(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield http_controller_1.HTTPController.POST({ id: id }, '/usuario/etiquetas')
+                .then(resultado => {
+                return resultado;
+            }).catch(e => console.error(e));
+        });
+    }
+    static eliminarNota(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield http_controller_1.HTTPController.POST({ id_nota: id }, '/notas/eliminar')
                 .then(resultado => {
                 return resultado;
             }).catch(e => console.error(e));

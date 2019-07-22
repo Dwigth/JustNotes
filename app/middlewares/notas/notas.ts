@@ -17,3 +17,13 @@ export async function EditarNota(req: Request, res: Response) {
     let response = await NotaController.EditarNota(nota).catch(e => e);
     res.json(response);
 }
+export async function BuscarNota(req: Request, res: Response) {
+    let busqueda = req.body.busqueda;
+    let response = await NotaController.buscarNota(busqueda).catch(e => e);
+    res.json(response);
+}
+export async function EliminarNota(req: Request, res: Response) {
+    let id = +req.body.id_nota;
+    let response = await NotaController.eliminarNota(id).catch(e => e);
+    res.json(response);
+}

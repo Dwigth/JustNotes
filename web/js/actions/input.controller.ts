@@ -10,6 +10,7 @@ export class InputController {
     IConfirmacion: HTMLInputElement;
     notas: Array<Nota> = [];
     ILista: HTMLElement;
+    IBusqueda: HTMLInputElement;
     static IRefresh: HTMLElement;
     constructor() {
         this.ITitulo = <HTMLInputElement>document.getElementById('ITitulo');
@@ -17,10 +18,14 @@ export class InputController {
         this.IContenedor = <HTMLInputElement>document.getElementById('IContenedor');
         this.IConfirmacion = <HTMLInputElement>document.getElementById('IConfirmacion');
         this.ILista = <HTMLElement>document.getElementById('ILista');
+        this.IBusqueda = <HTMLInputElement>document.getElementById('busqueda');
         InputController.IRefresh = <HTMLElement>document.getElementById('IRefresh');
         this.IConfirmacion.addEventListener('click', () => { this.save(); this.afterClickIContenido('none'); });
         this.IContenido.addEventListener('click', () => {
             this.afterClickIContenido('initial');
+        });
+        this.IBusqueda.addEventListener('keyup', () => {
+            this.search(this.IBusqueda.value);
         });
         this.afterClickIContenido('none');
         this.displayNotas();
@@ -38,7 +43,7 @@ export class InputController {
         }
         let notas: Array<Nota> = (data.data != undefined) ? Array.from(data.data) : [];
         this.notas = notas;
-        let vc = new VistaController(this.notas).renderNotas(this.IContenedor);
+        let vc = new VistaController(this.notas).render(this.IContenedor);
     }
     getITitulo() {
         return (this.ITitulo != null) ? this.ITitulo.value : 'Objeto es nulo';
@@ -64,10 +69,11 @@ export class InputController {
             fecha_modificacion: formatted_date
         };
         if (nota.contenido !== '') {
-            NotasService.agregarNota(nota);
-            let vc = new VistaController(this.notas).renderNotas(this.IContenedor);
-            this.clean();
-            this.displayNotas();
+            NotasService.agregarNota(nota).finally(() => {
+                let vc = new VistaController(this.notas).render(this.IContenedor);
+                this.clean();
+                this.displayNotas();
+            });
         }
     }
     clean() {
@@ -80,5 +86,11 @@ export class InputController {
     }
     public static spin(spin: boolean) {
         (spin) ? this.IRefresh.classList.add('refresh') : InputController.IRefresh.classList.remove('refresh');
+    }
+    async search(val: string) {
+        if (val != '') {
+            let data = await NotasService.buscarNota(val).catch(e => e);
+            let vc = new VistaController(data.data).render(this.IContenedor);
+        } else this.displayNotas();
     }
 }
