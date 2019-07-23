@@ -14,6 +14,7 @@ export class VistaController {
     Masonry: any;
     backdrop: HTMLElement;
     cardContainer: HTMLElement;
+
     private colors: Array<string> = [
         'FF637D',
         'F4F1BB',
@@ -31,6 +32,10 @@ export class VistaController {
     constructor(notas: Array<Nota>) {
         this.notas = notas;
 
+    }
+
+    setNotas(notas: Array<Nota>) {
+        this.notas = notas;
     }
 
     /**
@@ -55,28 +60,7 @@ export class VistaController {
             columnWidth: 20
         });
 
-        //render etiquetas
-        let loadEtiquetas = async () => {
-            const label = document.createElement('div');
-            label.classList.add('tag-element');
-            label.textContent = 'Etiquetas';
-            const editLabel = document.createElement('div');
-            editLabel.classList.add('tag-element');
-            const iconEdit = document.createElement('i');
-            iconEdit.classList.add('material-icons-outlined');
-            iconEdit.textContent = 'edit';
-            editLabel.appendChild(iconEdit);
-            editLabel.setAttribute('data-value', 'Editar etiqueta');
-
-            IEtiquetaContenedor.appendChild(label);
-            this.etiquetas = await NotasService.etiquetasUsuario(1).then((r: any) => r.data.etiquetas).catch(e => e);
-            this.etiquetas.forEach(etiqueta => {
-                const label = this.labelsBuilder(etiqueta);
-                IEtiquetaContenedor.appendChild(label);
-            });
-            IEtiquetaContenedor.appendChild(editLabel);
-        }
-        loadEtiquetas();
+        this.loadEtiquetas(IEtiquetaContenedor);
     }
 
     /**
@@ -92,6 +76,7 @@ export class VistaController {
 
         if (data.color != null) {
             contenedorCard.style.backgroundColor = '#' + data.color;
+            contenedorCard.classList.add('nota-card-color');
         }
 
         //creacion de elementos html y adición de clases css
@@ -236,6 +221,7 @@ export class VistaController {
         this.backdrop.addEventListener('click', () => {
             contenedorCard.classList.remove('nota-click');
             this.backdrop.style.visibility = 'hidden';
+            InputController.Modal.style.visibility = 'hidden';
             this.Masonry.reloadItems();
         });
 
@@ -246,14 +232,78 @@ export class VistaController {
         return contenedorCard;
     }
 
-    labelsBuilder(etiqueta: Etiquetas) {
+    labelsBuilder(etiqueta: Etiquetas, editable?: boolean) {
         const base = document.createElement('div');
         base.classList.add('tag-element');
         const icon = document.createElement('i');
         icon.classList.add('material-icons-outlined');
         icon.textContent = 'label';
         base.append(icon);
-        base.setAttribute('data-value', etiqueta.nombre);
+        if (editable) {
+            const nombre = document.createElement('div');
+            nombre.textContent = etiqueta.nombre;
+            base.appendChild(nombre);
+        } else {
+            base.setAttribute('data-value', etiqueta.nombre);
+        }
         return base;
     }
+    //render etiquetas
+    async loadEtiquetas(IEtiquetaContenedor: HTMLElement) {
+        InputController.Modal.innerHTML = "";
+        const label = document.createElement('div');
+        label.classList.add('tag-element');
+        label.textContent = 'Etiquetas';
+        const editLabel = document.createElement('div');
+        editLabel.classList.add('tag-element');
+        const iconEdit = document.createElement('i');
+        iconEdit.classList.add('material-icons-outlined');
+        iconEdit.textContent = 'edit';
+        editLabel.appendChild(iconEdit);
+        editLabel.setAttribute('data-value', 'Editar etiqueta');
+
+        editLabel.addEventListener('click', async () => {
+            this.backdrop.style.visibility = 'visible';
+            InputController.Modal.style.visibility = 'visible';
+        });
+
+
+        IEtiquetaContenedor.appendChild(label);
+        const inputLabels = document.createElement('input');
+        inputLabels.classList.add('input-grey');
+        inputLabels.placeholder = '¡Crea una nueva etiqueta!';
+        inputLabels.style.padding = '10px';
+        inputLabels.style.borderRadius = '4px';
+        const LabelList = document.createElement('ul');
+        this.etiquetas = await NotasService.etiquetasUsuario(1).then((r: any) => r.data.etiquetas).catch(e => e);
+        this.etiquetas.forEach(etiqueta => {
+            const label = this.labelsBuilder(etiqueta);
+            IEtiquetaContenedor.appendChild(label);
+            const li = document.createElement('li');
+            li.appendChild(this.labelsBuilder(etiqueta, true));
+            let name = <HTMLElement>li.children[0].children[1];
+            name.addEventListener('click', () => {
+                name.contentEditable = 'true';
+            })
+            LabelList.appendChild(li);
+        });
+
+        InputController.Modal.append(inputLabels, LabelList);
+        IEtiquetaContenedor.appendChild(editLabel);
+
+        inputLabels.addEventListener('keyup', (e) => {
+            if (e.key == 'Enter') {
+                const etiqueta: Etiquetas = {
+                    nombre: inputLabels.value,
+                    id_usuario: 1
+                };
+                const nuevo = this.labelsBuilder(etiqueta, true);
+                LabelList.appendChild(nuevo);
+                inputLabels.value = '';
+            }
+        });
+    }
+
+
+
 }

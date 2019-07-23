@@ -11,6 +11,7 @@ export class InputController {
     notas: Array<Nota> = [];
     ILista: HTMLElement;
     IBusqueda: HTMLInputElement;
+    static Modal: HTMLElement;
     static IRefresh: HTMLElement;
     constructor() {
         this.ITitulo = <HTMLInputElement>document.getElementById('ITitulo');
@@ -19,6 +20,7 @@ export class InputController {
         this.IConfirmacion = <HTMLInputElement>document.getElementById('IConfirmacion');
         this.ILista = <HTMLElement>document.getElementById('ILista');
         this.IBusqueda = <HTMLInputElement>document.getElementById('busqueda');
+        InputController.Modal = <HTMLElement>document.getElementById('modal');
         InputController.IRefresh = <HTMLElement>document.getElementById('IRefresh');
         this.IConfirmacion.addEventListener('click', () => { this.save(); this.afterClickIContenido('none'); });
         this.IContenido.addEventListener('click', () => {
