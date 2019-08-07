@@ -4,9 +4,9 @@
     "description": "",
     "main": "",
     "scripts": {
-        "start": "nodemon dev/app/server.js",
+        "start": "nodemon dist/app/server.js",
         "serve": "set SECRET=123456789 && npm start",
-        "gen": "node dev/app/util/generador_clases_orm.js"
+        "gen": "node dist/app/util/generador_clases_orm.js"
     },
     "author": "",
     "license": "MIT",

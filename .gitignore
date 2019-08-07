@@ -2,7 +2,6 @@ node_modules
 test
 deploy
 dev
-dist
 package-lock.json
 web/js/app.bundle.min.js
 web/js/app.bundle.js
