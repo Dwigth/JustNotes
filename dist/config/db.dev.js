@@ -7,10 +7,10 @@ const moment_timezone_1 = __importDefault(require("moment-timezone"));
 const timezone = 'America/Mexico_City';
 const momentTz = moment_timezone_1.default.tz.setDefault(timezone);
 exports._CONFIG = {
-    database: 'simplenote' || process.env.DATABASE,
-    username: 'postgres' || process.env.USERNAME,
-    password: '123456789' || process.env.PASSWORD,
-    host: 'localhost' || process.env.HOST,
+    database: process.env.DATABASE,
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD,
+    host: process.env.HOST,
     port: 5432,
     dialect: 'postgres',
     timezone: timezone,

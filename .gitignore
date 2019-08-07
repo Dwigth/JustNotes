@@ -3,5 +3,5 @@ test
 deploy
 dev
 package-lock.json
-web/js/app.bundle.min.js
+# web/js/app.bundle.min.js
 web/js/app.bundle.js
