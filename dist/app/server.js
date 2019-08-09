@@ -38,6 +38,8 @@ init_routes_module_1.bootstrapRoutes(app);
 //     key: fs.readFileSync('server.key'),
 //     cert: fs.readFileSync('server.cert')
 // }, app);
+app.use(express_1.default.static('../web'));
+app.use(express_1.default.static('../index.html'));
 const server = http_1.default.createServer(app);
 exports.io = socket_io_1.default(server);
 server.listen(config_dev_1.config.PORT);

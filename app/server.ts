@@ -44,6 +44,9 @@ bootstrapRoutes(app);
 //     cert: fs.readFileSync('server.cert')
 // }, app);
 
+app.use(express.static('../web'));
+app.use(express.static('../index.html'));
+
 const server = http.createServer(app);
 
 export const io = sokectIO(server);
