@@ -6,7 +6,8 @@
     "scripts": {
         "start": "nodemon public/app/index.js",
         "serve": "set SECRET=123456789 && npm start",
-        "gen": "node public/app/util/generador_clases_orm.js"
+        "gen": "node public/app/util/generador_clases_orm.js",
+        "compile": "node public/app/util/bcompile-env.js"
     },
     "author": "",
     "license": "MIT",
@@ -35,6 +36,7 @@
         "express-jwt": "^5.3.1",
         "hbs": "^4.0.5",
         "helmet": "^3.15.0",
+        "heroku-ssl-redirect": "0.0.4",
         "jsonwebtoken": "^8.4.0",
         "masonry-layout": "^4.2.2",
         "moment": "^2.24.0",

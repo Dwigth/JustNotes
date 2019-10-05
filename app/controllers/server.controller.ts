@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import { ORMModule } from '../orm/orm.module';
 import { RoutesModule } from '../routes/routes.module';
 import { environment } from '../../environment/environment';
+import sslRedirect from 'heroku-ssl-redirect'
 import hbs from 'hbs';
 
 import http from 'http';
@@ -27,6 +28,7 @@ export class ServerController {
         EXPRESS_APP = express();
         EXPRESS_APP.use('/assets', express.static(dir + '/assets'));
         EXPRESS_APP.set('view engine', 'hbs');
+        EXPRESS_APP.use(sslRedirect())
         const routes = new RoutesModule();
 
     }

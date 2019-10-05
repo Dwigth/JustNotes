@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const orm_module_1 = require("../orm/orm.module");
 const routes_module_1 = require("../routes/routes.module");
 const environment_1 = require("../../environment/environment");
+const heroku_ssl_redirect_1 = __importDefault(require("heroku-ssl-redirect"));
 const http_1 = __importDefault(require("http"));
 class ServerController {
     constructor() { }
@@ -18,6 +19,7 @@ class ServerController {
         exports.EXPRESS_APP = express_1.default();
         exports.EXPRESS_APP.use('/assets', express_1.default.static(dir + '/assets'));
         exports.EXPRESS_APP.set('view engine', 'hbs');
+        exports.EXPRESS_APP.use(heroku_ssl_redirect_1.default());
         const routes = new routes_module_1.RoutesModule();
     }
     Start() {

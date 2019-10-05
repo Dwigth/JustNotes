@@ -1,0 +1,19 @@
+{
+    "environments": {
+        "production": {
+            "origin": "environment/environment.ts",
+            "changeFor": "environment/environment.prod.ts",
+            "appendables": {
+                "SSL_CERT": {
+                    "key": "C:/Apache24/ssl/wildcard.spf.tabasco.gob.mx.key",
+                    "cert": "C:/Apache24/ssl/wildcard.spf.tabasco.gob.mx.crt"
+                }
+            }
+        },
+        "preproduction": {
+            "origin": "environment/environment.ts",
+            "changeFor": "environment/environment.pre.ts"
+        },
+        "server": "app/server.ts"
+    }
+}
