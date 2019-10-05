@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple note!</title>
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/normalize.css">
+    <link rel="stylesheet" href="../assets/css/skeleton.css">
+    <!-- <link rel="stylesheet" href="assets/material-icons.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="57x57" href="./assets/img/icon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="../assets/img/icon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/icon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./.assets/img/icon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/icon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="../assets/img/icon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../assets/img/icon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../assets/img/icon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/icon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../assets/img/icon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../assets/img/icon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/img/icon/favicon-16x16.png">
+    <link rel="manifest" href="../assets/img/icon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+    <div id="error-message">
+        <p class="error-text"></p>
+    </div>
+
+    <div id="backdrop" class="backdrop"></div>
+    <div class="tags-list" id="modal">
+    </div>
+
+    <div class="header">
+        <div class="row">
+            <div class="two columns">
+                <img width="70%" src="assets/img/JustNotesLogo_v2.png" alt="" srcset="">
+            </div>
+            <div class="six columns">
+                <form>
+                    <div class="row">
+                        <input type="text" class="u-full-width input-grey" placeholder="Buscar" name="" id="busqueda">
+                    </div>
+                </form>
+            </div>
+            <div class="one columns">
+                <i id="IRefresh" class="material-icons-outlined cursor">
+                    refresh
+                </i>
+            </div>
+            <!-- <div class="one columns cursor">
+                <i class="material-icons-outlined">
+                    view_stream
+                </i>
+            </div>
+            <div class="one columns cursor">
+                <i class="material-icons-outlined">
+                    settings
+                </i>
+            </div>
+            <div class="one columns cursor">
+                <i class="material-icons-outlined">
+                    account_box
+                </i>
+            </div> -->
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="two columns">
+                <div class="u-full-width">
+                    <div class="tags-list" id="tags-list">
+
+                    </div>
+                </div>
+            </div>
+            <div class="ten columns">
+                <div class="u-full-width">
+                    <div class="card">
+                        <form>
+                            <div>
+                                <input class="u-full-width" id="ITitulo" placeholder="Título" type="text">
+                            </div>
+                            <div>
+                                <input class="u-full-width" id="IContenido" placeholder="¡Vamos a tomar nota!"
+                                    type="text">
+                            </div>
+                            <div>
+                                <i class="material-icons-outlined">
+                                    view_list
+                                </i>
+                                <input type="checkbox" name="ILista" id="ILista">
+                            </div>
+                            <div>
+                                <input type="button" class="button-primary" id="IConfirmacion" value="Cerrar">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="IContenedor" class="">
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+    <script src="../assets/js/libs/masonry.pkgd.min.js"></script>
+    <script src="../assets/js/app.bundle.min.js"></script>
+</body>
+
+</html>

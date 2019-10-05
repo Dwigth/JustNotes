@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
-const db_dev_1 = require("../../config/db.dev");
+const environment_1 = require("../../environment/environment");
 const index_1 = require("./notas/index");
-class ORM {
+class ORMModule {
     constructor() {
         this.modules = [];
-        this.config = db_dev_1._CONFIG;
-        this.seql = new sequelize_typescript_1.Sequelize(this.config);
+        this.seql = new sequelize_typescript_1.Sequelize(environment_1.environment.database);
         this.modules = this.modules.concat(index_1.MODULE_NOTES_CLASSES);
         this.seql.addModels(this.modules);
     }
@@ -15,4 +14,4 @@ class ORM {
         return this._instance || (this._instance = new this());
     }
 }
-exports.default = ORM;
+exports.ORMModule = ORMModule;

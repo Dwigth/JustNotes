@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { NotaController } from "../../actions/notas/nota.controller";
+import { NotaController } from "../../controllers/notas/nota.controller";
 import { NOTA } from "../../helpers/notas/nota";
 
 export async function ObtenerNotas(req: Request, res: Response) {

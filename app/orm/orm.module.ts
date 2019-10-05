@@ -1,17 +1,15 @@
 
 import { Sequelize, ISequelizeConfig } from 'sequelize-typescript';
-import { _CONFIG } from "../../config/db.dev";
+import { environment } from "../../environment/environment";
 import { MODULE_NOTES_CLASSES } from "./notas/index";
 
-export default class ORM {
-    private static _instance: ORM;
+export class ORMModule {
+    private static _instance: ORMModule;
     public seql: Sequelize;
-    public config: ISequelizeConfig;
     private modules: string[] = [];
 
     constructor() {
-        this.config = _CONFIG;
-        this.seql = new Sequelize(this.config);
+        this.seql = new Sequelize(environment.database);
         this.modules = this.modules.concat(
             MODULE_NOTES_CLASSES
         );

@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const etiquetas_controller_1 = require("../../actions/notas/etiquetas.controller");
+const etiquetas_controller_1 = require("../../controllers/notas/etiquetas.controller");
 function EtiquetasPorUsuario(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         let id = +req.body.id;

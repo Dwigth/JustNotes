@@ -4,9 +4,9 @@
     "description": "",
     "main": "",
     "scripts": {
-        "start": "nodemon dist/app/server.js",
+        "start": "nodemon public/app/index.js",
         "serve": "set SECRET=123456789 && npm start",
-        "gen": "node dist/app/util/generador_clases_orm.js"
+        "gen": "node public/app/util/generador_clases_orm.js"
     },
     "author": "",
     "license": "MIT",
@@ -16,6 +16,7 @@
         "@types/cors": "^2.8.4",
         "@types/express": "^4.16.1",
         "@types/express-jwt": "0.0.41",
+        "@types/hbs": "^4.0.1",
         "@types/helmet": "0.0.42",
         "@types/jsonwebtoken": "^8.3.0",
         "@types/masonry-layout": "^4.2.1",
@@ -32,6 +33,7 @@
         "cors": "^2.8.5",
         "express": "^4.16.4",
         "express-jwt": "^5.3.1",
+        "hbs": "^4.0.5",
         "helmet": "^3.15.0",
         "jsonwebtoken": "^8.4.0",
         "masonry-layout": "^4.2.2",

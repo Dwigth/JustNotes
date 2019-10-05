@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { EtiquetasController } from "../../actions/notas/etiquetas.controller";
+import { EtiquetasController } from "../../controllers/notas/etiquetas.controller";
 
 export async function EtiquetasPorUsuario(req: Request, res: Response) {
     let id = +req.body.id;
