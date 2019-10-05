@@ -1,5 +1,5 @@
 export const environment = {
-    PORT: <any>process.env.PORT | 2405,
+    PORT: <any>process.env.PORT,
     ENV: <string>process.env.NODE_ENV,
     LOGS: <string>process.env.LOGS,
     DATEFORMAT: 'YYYY-MM-DD HH:mm:ss',

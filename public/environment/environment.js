@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.environment = {
-    PORT: process.env.PORT | 2405,
+    PORT: process.env.PORT,
     ENV: process.env.NODE_ENV,
     LOGS: process.env.LOGS,
     DATEFORMAT: 'YYYY-MM-DD HH:mm:ss',
