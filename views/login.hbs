@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Inicia sesión</title>
+    <link rel="stylesheet" href="../assets/css/app.css">
+    <link rel="stylesheet" href="../assets/css/normalize.css">
+    <link rel="stylesheet" href="../assets/css/skeleton-legacy.css">
+    <link rel="stylesheet" href="../assets/css/barebones.css">
+    <!-- <link rel="stylesheet" href="assets/material-icons.css"> -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="57x57" href="./assets/img/icon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="../assets/img/icon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../assets/img/icon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./.assets/img/icon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../assets/img/icon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="../assets/img/icon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../assets/img/icon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../assets/img/icon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/img/icon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../assets/img/icon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../assets/img/icon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/img/icon/favicon-16x16.png">
+    <link rel="manifest" href="../assets/img/icon/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+    <div class="grid-container thirds">
+        <div></div>
+        <div>
+            {{!-- Imagen  --}}
+            <div>
+                <img width="200px" src="../assets/img/JustNotesLogo_v2.png" alt="">
+            </div>
+            <!-- The above form looks like this -->
+            <form>
+                <div class="row">
+                    <div class="twelve columns">
+                        <label for="email">Correo/Nombre de usuario</label>
+                        <input class="u-full-width" type="email" placeholder="test@imaginary.com/tester01" id="email">
+                    </div>
+                    <div class="twelve columns">
+                        <label for="password">Contraseña</label>
+                        <input class="u-full-width" type="password" id="password">
+                    </div>
+                </div>
+                <label class="example-send-yourself-copy">
+                    <input type="checkbox">
+                    <span class="label-body">Recordar contraseña</span>
+                </label>
+                <input class="button-primary" type="submit" value="Entrar">
+            </form>
+        </div>
+        <div></div>
+
+    </div>
+    <!-- Always wrap checkbox and radio inputs in a label and use a <span class="label-body"> inside of it -->
+
+    <!-- Note: The class .u-full-width is just a utility class shorthand for width: 100% -->
+</body>
+
+</html>
