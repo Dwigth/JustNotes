@@ -3,7 +3,7 @@ import { InputController } from "./input.controller";
 import { NotasService } from "../services/notas.service";
 import { AlertController } from "./alert.controllert";
 //Comentar para compilar en producción
-// import Masonry from 'masonry-layout';
+import Masonry from 'masonry-layout';
 import { Etiquetas } from "../helpers/etiquetas";
 
 export class VistaController {

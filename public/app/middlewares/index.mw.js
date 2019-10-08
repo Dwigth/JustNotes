@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-function checkLogin(req, res, next) {
-    // let token = req.body;
-    console.log(req.body);
-    // if (token !== '' || token !== undefined) {
-    //     res.render('index', {});
-    // }
+function test(req, res, next) {
+    const token = req.body.token;
+    if (token === undefined || token === '') {
+        res.render('login');
+    }
     next();
 }
+exports.test = test;
 function main(req, res, next) {
-    res.render('login', {});
+    res.render('index', {});
 }
 exports.main = main;

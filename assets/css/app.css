@@ -190,6 +190,11 @@
     margin-left: 40px;
 }
 
+.error-txt{
+    background-color: #ff5c5c !important;
+    color: white;
+}
+
 @keyframes rotation {
     from {
             transform: rotate(0deg);

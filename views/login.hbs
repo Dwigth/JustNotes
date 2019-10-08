@@ -42,16 +42,19 @@
             <div>
                 <img width="200px" src="../assets/img/JustNotesLogo_v2.png" alt="">
             </div>
+            <div class="error-txt card">
+                {{msg}}
+            </div>
             <!-- The above form looks like this -->
-            <form>
+            <form action="/login" method="POST">
                 <div class="row">
                     <div class="twelve columns">
-                        <label for="email">Correo/Nombre de usuario</label>
-                        <input class="u-full-width" type="email" placeholder="test@imaginary.com/tester01" id="email">
+                        <label for="identity">Correo | Usuario</label>
+                        <input name="identity" class="u-full-width" type="text" id="identity">
                     </div>
                     <div class="twelve columns">
                         <label for="password">Contraseña</label>
-                        <input class="u-full-width" type="password" id="password">
+                        <input name="password" class="u-full-width" type="password" id="password">
                     </div>
                 </div>
                 <label class="example-send-yourself-copy">

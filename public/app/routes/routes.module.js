@@ -8,9 +8,9 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const notas_routes_1 = require("./notas/notas.routes");
 const etiquetas_routes_1 = require("./notas/etiquetas.routes");
 const server_controller_1 = require("../controllers/server.controller");
-const index_routes_1 = require("./main/index.routes");
+const views_routes_1 = require("./main/views.routes");
 const routes = [
-    index_routes_1.main_router,
+    views_routes_1.main_router,
     notas_routes_1.notas_router,
     etiquetas_routes_1.etiquetas_router
 ];

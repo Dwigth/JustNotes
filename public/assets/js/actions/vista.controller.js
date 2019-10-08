@@ -7,10 +7,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const input_controller_1 = require("./input.controller");
 const notas_service_1 = require("../services/notas.service");
 const alert_controllert_1 = require("./alert.controllert");
+//Comentar para compilar en producción
+const masonry_layout_1 = __importDefault(require("masonry-layout"));
 class VistaController {
     constructor(notas) {
         this.colors = [
@@ -45,7 +50,7 @@ class VistaController {
             const elemNota = this.cardBuilder(nota);
             IContenedor.append(elemNota);
         });
-        this.Masonry = new Masonry('.grid', {
+        this.Masonry = new masonry_layout_1.default('.grid', {
             // options
             itemSelector: '.nota-card',
             columnWidth: 20

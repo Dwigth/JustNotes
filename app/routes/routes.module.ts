@@ -5,7 +5,7 @@ import { notas_router } from "./notas/notas.routes";
 import { Application, Request, Response } from 'express';
 import { etiquetas_router } from "./notas/etiquetas.routes";
 import { EXPRESS_APP } from "../controllers/server.controller";
-import { main_router } from "./main/index.routes";
+import { main_router } from "./main/views.routes";
 const routes = [
     main_router,
     notas_router,
