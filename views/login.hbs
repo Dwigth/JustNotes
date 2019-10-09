@@ -41,10 +41,13 @@
             {{!-- Imagen  --}}
             <div>
                 <img width="200px" src="../assets/img/JustNotesLogo_v2.png" alt="">
+                <label for="">Just Notes!</label>
             </div>
+            {{#if error}}
             <div class="error-txt card">
                 {{msg}}
             </div>
+            {{/if}}
             <!-- The above form looks like this -->
             <form action="/login" method="POST">
                 <div class="row">
