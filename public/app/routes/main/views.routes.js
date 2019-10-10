@@ -10,4 +10,5 @@ exports.main_router = express_1.default.Router();
 exports.main_router.get('/', middlewares_1.loginView);
 exports.main_router.get('/home', middlewares_1.mainView);
 exports.main_router.get('/login', middlewares_1.loginView);
+exports.main_router.get('/signup', middlewares_1.signupView);
 exports.main_router.post('/login', authentication_1.login);
