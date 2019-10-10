@@ -3,17 +3,20 @@ import { InputController } from "./input.controller";
 import { NotasService } from "../services/notas.service";
 import { AlertController } from "./alert.controllert";
 //Comentar para compilar en producción
-import Masonry from 'masonry-layout';
+import salvattore from 'salvattore';
 import { Etiquetas } from "../helpers/etiquetas";
 
+
 export class VistaController {
+
     router: any;
     notas: Array<Nota>;
     etiquetas: Array<Etiquetas>;
-    //Haciendo referencia a Masonry que está en otro archivo.
-    Masonry: any;
     backdrop: HTMLElement;
     cardContainer: HTMLElement;
+
+    // Referencia global del objeto Salvattore
+    public salvattore: any = salvattore || {};
 
     private colors: Array<string> = [
         'FF637D',
@@ -31,12 +34,6 @@ export class VistaController {
 
     constructor(notas?: Array<Nota>) {
         this.backdrop = <HTMLElement>document.getElementById('backdrop');
-        this.Masonry = new Masonry('.grid', {
-            // options
-            itemSelector: '.nota-card',
-            columnWidth: 80
-        });
-
         if (notas != undefined) {
             this.notas = notas;
         }
@@ -47,10 +44,10 @@ export class VistaController {
         this.notas = notas;
     }
 
-    appendNote(Note: Nota) {
+    appendNote(IContenedor: HTMLElement, Note: Nota) {
         this.notas.unshift(Note);
         const noteElement = this.cardBuilder(Note);
-        this.Masonry.appended([noteElement]);
+        salvattore.prependElements(IContenedor, [noteElement]);
     }
 
     /**
@@ -64,15 +61,11 @@ export class VistaController {
         IEtiquetaContenedor.innerHTML = "";
         IContenedor.classList.add('grid');
 
+        salvattore.recreateColumns(IContenedor);
+
         this.notas.forEach((nota: Nota) => {
             const elemNota = this.cardBuilder(nota);
             IContenedor.append(elemNota);
-        });
-
-        this.Masonry = new Masonry('.grid', {
-            // options
-            itemSelector: '.nota-card',
-            columnWidth: 20
         });
 
         this.loadEtiquetas(IEtiquetaContenedor);
@@ -95,6 +88,7 @@ export class VistaController {
         }
 
         //creacion de elementos html y adición de clases css
+        const wrapper = document.createElement('div');
         const headerCard: HTMLElement = document.createElement('div');
         const contentCard: HTMLElement = document.createElement('div');
         const footerCard: HTMLElement = document.createElement('div');
@@ -240,14 +234,11 @@ export class VistaController {
             contenedorCard.classList.remove('center-abs-div');
             this.backdrop.style.visibility = 'hidden';
             InputController.Modal.style.visibility = 'hidden';
-            this.Masonry.reloadItems();
         });
 
-
-
-
         contenedorCard.append(headerCard, contentCard, footerCard);
-        return contenedorCard;
+        wrapper.appendChild(contenedorCard);
+        return wrapper;
     }
 
     labelsBuilder(etiqueta: Etiquetas, editable?: boolean) {

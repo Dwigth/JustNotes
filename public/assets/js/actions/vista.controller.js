@@ -15,9 +15,11 @@ const input_controller_1 = require("./input.controller");
 const notas_service_1 = require("../services/notas.service");
 const alert_controllert_1 = require("./alert.controllert");
 //Comentar para compilar en producción
-const masonry_layout_1 = __importDefault(require("masonry-layout"));
+const salvattore_1 = __importDefault(require("salvattore"));
 class VistaController {
     constructor(notas) {
+        // Referencia global del objeto Salvattore
+        this.salvattore = salvattore_1.default || {};
         this.colors = [
             'FF637D',
             'F4F1BB',
@@ -32,11 +34,6 @@ class VistaController {
             'Eliminar'
         ];
         this.backdrop = document.getElementById('backdrop');
-        this.Masonry = new masonry_layout_1.default('.grid', {
-            // options
-            itemSelector: '.nota-card',
-            columnWidth: 80
-        });
         if (notas != undefined) {
             this.notas = notas;
         }
@@ -44,10 +41,10 @@ class VistaController {
     setNotas(notas) {
         this.notas = notas;
     }
-    appendNote(Note) {
+    appendNote(IContenedor, Note) {
         this.notas.unshift(Note);
         const noteElement = this.cardBuilder(Note);
-        this.Masonry.appended([noteElement]);
+        salvattore_1.default.prependElements(IContenedor, [noteElement]);
     }
     /**
      * @param IContenedor Contenedor en el cual se construirán las tarjetas
@@ -59,14 +56,10 @@ class VistaController {
         IContenedor.innerHTML = "";
         IEtiquetaContenedor.innerHTML = "";
         IContenedor.classList.add('grid');
+        salvattore_1.default.recreateColumns(IContenedor);
         this.notas.forEach((nota) => {
             const elemNota = this.cardBuilder(nota);
             IContenedor.append(elemNota);
-        });
-        this.Masonry = new masonry_layout_1.default('.grid', {
-            // options
-            itemSelector: '.nota-card',
-            columnWidth: 20
         });
         this.loadEtiquetas(IEtiquetaContenedor);
     }
@@ -85,6 +78,7 @@ class VistaController {
             contenedorCard.classList.add('nota-card-color');
         }
         //creacion de elementos html y adición de clases css
+        const wrapper = document.createElement('div');
         const headerCard = document.createElement('div');
         const contentCard = document.createElement('div');
         const footerCard = document.createElement('div');
@@ -217,10 +211,10 @@ class VistaController {
             contenedorCard.classList.remove('center-abs-div');
             this.backdrop.style.visibility = 'hidden';
             input_controller_1.InputController.Modal.style.visibility = 'hidden';
-            this.Masonry.reloadItems();
         });
         contenedorCard.append(headerCard, contentCard, footerCard);
-        return contenedorCard;
+        wrapper.appendChild(contenedorCard);
+        return wrapper;
     }
     labelsBuilder(etiqueta, editable) {
         const base = document.createElement('div');

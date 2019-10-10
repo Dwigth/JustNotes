@@ -46,7 +46,8 @@ class InputController {
             }
             let notas = (data.data != undefined) ? Array.from(data.data) : [];
             this.notas = notas;
-            let vc = new vista_controller_1.VistaController(this.notas).render(this.IContenedor);
+            let vc = new vista_controller_1.VistaController(this.notas);
+            vc.render(this.IContenedor);
         });
     }
     getITitulo() {
@@ -74,8 +75,7 @@ class InputController {
         };
         if (nota.contenido !== '') {
             notas_service_1.NotasService.agregarNota(nota).finally(() => {
-                let vc = new vista_controller_1.VistaController(this.notas).appendNote(nota);
-                // let vc = new VistaController(this.notas).render(this.IContenedor);
+                const vc = new vista_controller_1.VistaController(this.notas).appendNote(this.IContenedor, nota);
                 this.clean();
                 this.displayNotas();
             });

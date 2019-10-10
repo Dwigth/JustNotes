@@ -114,10 +114,6 @@
     margin-bottom: 10px;
     transition-duration: 0.5s;
 }
-.nota-card-color {
-    /* border:none; */
-    margin: 10px;
-}
 .nota-card-header, .EInputHeader {
     font-weight: bold;
     font-size: medium;
@@ -136,7 +132,7 @@
 }
 .nota-click{
     position: absolute !important;
-    transform: scale(2) translate(-50px, 0px);
+    transform: translate(-50px, 0px);
     z-index: 2;
 }
 .backdrop{
@@ -173,10 +169,10 @@
 }
 
 .center-abs-div{
+    margin-left: auto;
+    margin-right: auto;
     right: 0 !important;
     left:0 !important;
-    top:0 !important;
-    margin: 0 auto;
 }
 
 #modal{
@@ -202,6 +198,14 @@
     color: white;
 }
 
+.grid[data-columns]::before {
+	content: '4 .column.size-1of4';
+}
+
+/* These are the classes that are going to be applied: */
+.column { float: left; }
+.size-1of4 { width: 20% !important; }
+
 @keyframes rotation {
     from {
             transform: rotate(0deg);
@@ -219,3 +223,25 @@
         transform: translate(0px);
     }
 }
+@media screen and (max-width: 480px){
+	#grid[data-columns]::before {
+		content: '1 .column.size-1of1';
+	}
+}
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+	#grid[data-columns]::before {
+		content: '2 .column.size-1of2';
+	}
+}
+@media screen and (min-width: 769px) {
+	#grid[data-columns]::before {
+		content: '3 .column.size-1of3';
+	}
+}
+
+/* Again, you’re free to use and define the classes: */
+.column { float: left; }
+.size-1of1 { width: 100%; }
+.size-1of2 { width: 50%; }
+.size-1of3 { width: 33.333%; }

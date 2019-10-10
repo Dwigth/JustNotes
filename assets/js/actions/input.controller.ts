@@ -45,7 +45,9 @@ export class InputController {
         }
         let notas: Array<Nota> = (data.data != undefined) ? Array.from(data.data) : [];
         this.notas = notas;
-        let vc = new VistaController(this.notas).render(this.IContenedor);
+        let vc = new VistaController(this.notas);
+        vc.render(this.IContenedor);
+
     }
     getITitulo() {
         return (this.ITitulo != null) ? this.ITitulo.value : 'Objeto es nulo';
@@ -72,8 +74,7 @@ export class InputController {
         };
         if (nota.contenido !== '') {
             NotasService.agregarNota(nota).finally(() => {
-                let vc = new VistaController(this.notas).appendNote(nota);
-                // let vc = new VistaController(this.notas).render(this.IContenedor);
+                const vc = new VistaController(this.notas).appendNote(this.IContenedor, nota);
                 this.clean();
                 this.displayNotas();
             });
