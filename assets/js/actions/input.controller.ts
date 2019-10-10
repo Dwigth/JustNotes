@@ -72,7 +72,8 @@ export class InputController {
         };
         if (nota.contenido !== '') {
             NotasService.agregarNota(nota).finally(() => {
-                let vc = new VistaController(this.notas).render(this.IContenedor);
+                let vc = new VistaController(this.notas).appendNote(nota);
+                // let vc = new VistaController(this.notas).render(this.IContenedor);
                 this.clean();
                 this.displayNotas();
             });

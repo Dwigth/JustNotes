@@ -29,13 +29,28 @@ export class VistaController {
         'Eliminar'
     ];
 
-    constructor(notas: Array<Nota>) {
-        this.notas = notas;
+    constructor(notas?: Array<Nota>) {
+        this.backdrop = <HTMLElement>document.getElementById('backdrop');
+        this.Masonry = new Masonry('.grid', {
+            // options
+            itemSelector: '.nota-card',
+            columnWidth: 80
+        });
+
+        if (notas != undefined) {
+            this.notas = notas;
+        }
 
     }
 
     setNotas(notas: Array<Nota>) {
         this.notas = notas;
+    }
+
+    appendNote(Note: Nota) {
+        this.notas.unshift(Note);
+        const noteElement = this.cardBuilder(Note);
+        this.Masonry.appended([noteElement]);
     }
 
     /**
@@ -67,7 +82,7 @@ export class VistaController {
      * Función que crea el HTML de cada nota.
      * @param data Datos de la nota
      */
-    cardBuilder(data: Nota) {
+    cardBuilder(data: Nota): HTMLElement {
         let timer: any = null;
         const alert = new AlertController();
         const contenedorCard: HTMLElement = document.createElement('div');
@@ -197,11 +212,13 @@ export class VistaController {
         headerCard.addEventListener('click', () => {
             console.log('Carta ', data.id_nota);
             contenedorCard.classList.add('nota-click');
+            contenedorCard.classList.add('center-abs-div');
             headerCard.contentEditable = "true";
             this.backdrop.style.visibility = 'visible';
         });
         contentCard.addEventListener('click', () => {
             contenedorCard.classList.add('nota-click');
+            contenedorCard.classList.add('center-abs-div');
             contentCard.contentEditable = "true";
             this.backdrop.style.visibility = 'visible';
         });
@@ -220,6 +237,7 @@ export class VistaController {
 
         this.backdrop.addEventListener('click', () => {
             contenedorCard.classList.remove('nota-click');
+            contenedorCard.classList.remove('center-abs-div');
             this.backdrop.style.visibility = 'hidden';
             InputController.Modal.style.visibility = 'hidden';
             this.Masonry.reloadItems();

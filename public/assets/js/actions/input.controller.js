@@ -74,7 +74,8 @@ class InputController {
         };
         if (nota.contenido !== '') {
             notas_service_1.NotasService.agregarNota(nota).finally(() => {
-                let vc = new vista_controller_1.VistaController(this.notas).render(this.IContenedor);
+                let vc = new vista_controller_1.VistaController(this.notas).appendNote(nota);
+                // let vc = new VistaController(this.notas).render(this.IContenedor);
                 this.clean();
                 this.displayNotas();
             });

@@ -109,13 +109,13 @@
     height: auto;
     background: rgb(255, 255, 255);
     border-radius: 4px;
-    border:1px solid lightgrey;
+    border:1px solid lightgrey !important;
     padding: 10px;
     margin-bottom: 10px;
     transition-duration: 0.5s;
 }
 .nota-card-color {
-    border:none;
+    /* border:none; */
     margin: 10px;
 }
 .nota-card-header, .EInputHeader {
@@ -170,6 +170,13 @@
     color: white;
     text-align: center;
     padding: 5px;
+}
+
+.center-abs-div{
+    right: 0 !important;
+    left:0 !important;
+    top:0 !important;
+    margin: 0 auto;
 }
 
 #modal{

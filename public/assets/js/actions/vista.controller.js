@@ -31,10 +31,23 @@ class VistaController {
             'Mostrar lista',
             'Eliminar'
         ];
-        this.notas = notas;
+        this.backdrop = document.getElementById('backdrop');
+        this.Masonry = new masonry_layout_1.default('.grid', {
+            // options
+            itemSelector: '.nota-card',
+            columnWidth: 80
+        });
+        if (notas != undefined) {
+            this.notas = notas;
+        }
     }
     setNotas(notas) {
         this.notas = notas;
+    }
+    appendNote(Note) {
+        this.notas.unshift(Note);
+        const noteElement = this.cardBuilder(Note);
+        this.Masonry.appended([noteElement]);
     }
     /**
      * @param IContenedor Contenedor en el cual se construirán las tarjetas
@@ -178,11 +191,13 @@ class VistaController {
         headerCard.addEventListener('click', () => {
             console.log('Carta ', data.id_nota);
             contenedorCard.classList.add('nota-click');
+            contenedorCard.classList.add('center-abs-div');
             headerCard.contentEditable = "true";
             this.backdrop.style.visibility = 'visible';
         });
         contentCard.addEventListener('click', () => {
             contenedorCard.classList.add('nota-click');
+            contenedorCard.classList.add('center-abs-div');
             contentCard.contentEditable = "true";
             this.backdrop.style.visibility = 'visible';
         });
@@ -199,6 +214,7 @@ class VistaController {
         });
         this.backdrop.addEventListener('click', () => {
             contenedorCard.classList.remove('nota-click');
+            contenedorCard.classList.remove('center-abs-div');
             this.backdrop.style.visibility = 'hidden';
             input_controller_1.InputController.Modal.style.visibility = 'hidden';
             this.Masonry.reloadItems();
